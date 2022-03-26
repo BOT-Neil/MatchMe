@@ -1,0 +1,33 @@
+plugins {
+    id 'com.github.johnrengelman.shadow'
+}
+
+repositories {
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+}
+
+dependencies {
+    api project(':MatchMe-common')
+    compileOnly 'net.md-5:bungeecord-api:1.16-R0.5-SNAPSHOT'
+}
+
+processResources {
+    def props = [version: project.version]
+    inputs.properties props
+    expand props
+    filteringCharset 'UTF-8'
+    filesMatching('bungee.yml') {
+        expand props
+    }
+}
+
+shadowJar {
+    dependencies {
+        include(dependency(':MatchMe-common'))
+    }
+}
+
+tasks.build.dependsOn tasks.shadowJar

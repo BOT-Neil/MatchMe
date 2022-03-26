@@ -1,0 +1,3 @@
+rootProject.name = 'MatchMe'
+
+include 'MatchMe-common', 'MatchMe-spigot', 'MatchMe-sponge', 'MatchMe-bungeecord', 'MatchMe-velocity'
