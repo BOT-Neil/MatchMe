@@ -26,9 +26,14 @@ import net.md_5.bungee.event.EventHandler;
 
 public final class MatchMeBungeeCord extends Plugin implements Listener {
   public Configuration config;
+  private Plugin plugin;
 
+  public Plugin getPlugin(){
+    return plugin;
+  }
   public MatchMeBungeeCord() throws IOException {
-    }
+   this.plugin=this;
+  }
 
   @Override
   public void onEnable() {
@@ -40,22 +45,7 @@ public final class MatchMeBungeeCord extends Plugin implements Listener {
     } catch (Throwable throwable) {
       throwable.printStackTrace();
     }
-    loadData();
-    // System.out.println("KEYS:"+this.config.getSection("motd").getKeys());
-    /*
-     * for (int i = 0; i < mod2.length; i++) {
-     * System.out.println(cars[i]);
-     * }
-     */
-    // motd.addAll(this.config.getSection("motd").getKeys().);
-    // this.config.getSection("motd").getKeys().forEach((mtd)->{motd.iterator().;
-    // });
-    // getProxy().getScheduler().runAsync(this, new Pinger(this));
-    // getProxy().getServerInfo()
-    getProxy().getScheduler().schedule(this, new Pinger(), 0, this.config.getInt("updatespeedms"),
-        TimeUnit.MILLISECONDS);
-    //getProxy().getPluginManager().registerCommand(this, new matchme(this));
-    //getProxy().getPluginManager().registerCommand(this, new matchmereload(this));
+    getProxy().getScheduler().schedule(this, new DelayedStart(this), 20, TimeUnit.SECONDS);
   }
 
   @EventHandler
@@ -68,8 +58,6 @@ public final class MatchMeBungeeCord extends Plugin implements Listener {
       String name = byteArray.readUTF();
       this.matchMe(name, group);
     }
-    // Server server = (Server) event.getSender();
-    // ServerInfo info = server.getInfo();
   }
 
   public void loadData() {
