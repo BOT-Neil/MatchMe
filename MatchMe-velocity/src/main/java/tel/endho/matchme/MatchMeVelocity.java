@@ -111,8 +111,10 @@ public class MatchMeVelocity {
                 String servername= (String)servname;
                 proxyServer.getAllServers().forEach(registeredServer -> {
                     ServerInfo serverInfo= registeredServer.getServerInfo();
-                    if(serverInfo.getName().equals(servername)){
+                    if(serverInfo!=null){
+                      if(serverInfo.getName().equals(servername)){
                         MMConfig.groupMap.get(groupname).put(new ServerStatus(servername,serverInfo.getAddress().getHostName(),serverInfo.getAddress().getPort(),Integer.parseInt(generalconfig.getString("timeout"))),servername);
+                      }
                     }
                 });
             });
