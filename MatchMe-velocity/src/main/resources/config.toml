@@ -7,11 +7,9 @@ motd = [
     "STARTING"
 ]
 [servergroups]
-
-# Indentation (tabs and/or spaces) is allowed but not required
 [servergroups.mm]
 groupname="MM"
-servers = [
+servers=[
     "MM1",
     "MM2"
 ]

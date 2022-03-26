@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.Blob;
 import java.util.Comparator;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
@@ -104,6 +105,8 @@ public class MatchMeVelocity {
         generalconfig=config.getTable("config");
         config.getTables("groups").forEach(grouptoml -> {
             String groupname = grouptoml.getString("groupname");
+            Boolean motdsort = grouptoml.getBoolean("sortmotd");
+            MMConfig.groupsortOption.putIfAbsent(groupname,motdsort);
             MMConfig.groupMap.putIfAbsent(groupname,new TreeMap<>());
             grouptoml.getList("servers").forEach(servname->{
                 String servername= (String)servname;

@@ -1,0 +1,12 @@
+updatespeedms: 200
+timeoutms: 50
+motd: ["WAITING_FOR_PLAYERS","WAITING","STARTING"] 
+groups:
+  MM:
+    name: "MM"
+    sortmotd: false
+    servers: ["MM1", "MM2"]
+  SMP:
+    name: "SMP"
+    sortmotd: true #we will display 1 minute average tps on target
+    servers: ["MM1", "MM2"]
