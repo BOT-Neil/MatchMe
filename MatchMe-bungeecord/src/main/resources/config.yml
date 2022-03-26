@@ -9,4 +9,4 @@ groups:
   SMP:
     name: "SMP"
     sortmotd: true #we will display 1 minute average tps on target
-    servers: ["MM1", "MM2"]
+    servers: ["SMP1", "SMP2"]

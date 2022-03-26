@@ -10,8 +10,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class MatchMeSpigot extends JavaPlugin {
+  public static MatchMeSpigot plugin;
   @Override
   public void onEnable() {
+    plugin=this;
 
     this.getServer().getMessenger().registerOutgoingPluginChannel(this, "matchme:matchme");
     this.getCommand("matchme").setExecutor(new CommandKit());
