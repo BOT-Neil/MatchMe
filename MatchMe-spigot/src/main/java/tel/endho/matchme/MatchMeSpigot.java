@@ -28,8 +28,6 @@ public final class MatchMeSpigot extends JavaPlugin {
 
   public void matchMe(Player p, String s) {
     try {
-      System.out.println("matchmedebugstring:" + s);
-      System.out.println("matchmedebugpname:" + p.getName());
       matchPlayer(p, s);
       // sendPlayer(p,
       // groupMap.get(s).keySet().stream().filter(ServerStatus::isOpen).sorted(Comparator.comparingInt(ServerStatus::getOnline).reversed().thenComparing(ServerStatus::getName)).iterator().next().getName());
