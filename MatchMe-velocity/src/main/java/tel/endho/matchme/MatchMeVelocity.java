@@ -13,8 +13,6 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentBuilder;
-import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.TextComponent;
 import org.slf4j.Logger;
 
@@ -23,9 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
@@ -75,12 +71,14 @@ public class MatchMeVelocity {
                 .buildTask(this,new Pinger())
                 .repeat(200L,TimeUnit.MILLISECONDS)
                 .schedule();
+        this.logger.info("MatchMe Loaded");
     }
     @Subscribe
     public void OnEvent(PluginMessageEvent event){
         if(event.getIdentifier().getId().equals("matchme:matchme")){
             ByteArrayDataInput byteArray = ByteStreams.newDataInput(event.getData());
-            String mm = byteArray.readUTF();
+            //String mm = byteArray.readUTF();
+            byteArray.readUTF();
             String group = byteArray.readUTF();
             String name = byteArray.readUTF();
             this.matchMe(name,group);

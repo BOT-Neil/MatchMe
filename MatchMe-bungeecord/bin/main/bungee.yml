@@ -1,0 +1,4 @@
+name: MatchMe
+version: '${version}'
+main: tel.endho.matchme.MatchMeBungeeCord
+description: Universal MatchMaking plugin for minigames or lobbies

@@ -1,7 +1,5 @@
 package tel.endho.matchme;
 
-import tel.endho.matchme.MMConfig;
-
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 

@@ -1,0 +1,23 @@
+[config]
+updatetimems=300
+timeoutms="200"
+motd = [
+    "WAITING_FOR_PLAYERS",
+    "WAITING",
+    "STARTING"
+]
+[servergroups]
+
+# Indentation (tabs and/or spaces) is allowed but not required
+[servergroups.mm]
+groupname="MM"
+servers = [
+    "MM1",
+    "MM2"
+]
+[servergroups.smp]
+groupname="SMP"
+servers = [
+    "SMP2",
+    "SMP2"
+]
