@@ -1,7 +1,0 @@
-name: MatchMe
-version: '${version}'
-main: tel.endho.matchme.MatchMeSpigot
-api-version: 1.18
-authors: [ Trashulius ]
-description: Universal MatchMaking plugin for minigames or lobbies
-website: https://endho.tel
