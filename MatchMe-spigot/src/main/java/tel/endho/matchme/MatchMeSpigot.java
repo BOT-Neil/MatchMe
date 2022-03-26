@@ -14,7 +14,6 @@ public final class MatchMeSpigot extends JavaPlugin {
   @Override
   public void onEnable() {
     plugin=this;
-
     this.getServer().getMessenger().registerOutgoingPluginChannel(this, "matchme:matchme");
     this.getCommand("matchme").setExecutor(new CommandKit());
   }

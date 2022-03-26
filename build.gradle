@@ -6,6 +6,7 @@ plugins {
 group = 'tel.endho'
 version = '1.0-SNAPSHOT'
 
+
 subprojects {
     apply plugin: 'java-library'
     apply plugin: 'maven-publish'
@@ -28,7 +29,6 @@ subprojects {
             options.release = targetJavaVersion
         }
     }
-
     repositories {
         mavenCentral()
     }
