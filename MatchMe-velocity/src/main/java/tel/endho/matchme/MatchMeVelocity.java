@@ -26,7 +26,7 @@ import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 @Plugin(
-        id = "MatchMe-velocity",
+        id = "matchme-velocity",
         name = "MatchMe",
         version = BuildConstants.VERSION,
         description = "Universal MatchMaking plugin for minigames or lobbies",

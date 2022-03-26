@@ -4,7 +4,7 @@ import org.spongepowered.plugin.metadata.model.PluginDependency
 plugins {
     `java-library`
     id("com.github.johnrengelman.shadow")
-    id("org.spongepowered.gradle.plugin") version "2.0.0"
+    id("org.spongepowered.gradle.plugin") version "2.0.1"
 }
 
 repositories {
@@ -22,7 +22,7 @@ sponge {
         name(PluginLoaders.JAVA_PLAIN)
         version("1.0")
     }
-    plugin("MatchMe") {
+    plugin("matchme") {
         displayName("MatchMe")
         entrypoint("tel.endho.matchme.MatchMeSponge")
         description("Universal MatchMaking plugin for minigames or lobbies")
