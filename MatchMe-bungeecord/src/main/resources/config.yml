@@ -10,3 +10,7 @@ groups:
     name: "SMP"
     sortmotd: true #we will display 1 minute average tps on target
     servers: ["SMP1", "SMP2"]
+  Creative:
+    name: "Creative"
+    sortmotd: true #we will display 1 minute average tps on target
+    servers: ["CreativeEU1", "CreativeEU1"]

@@ -45,7 +45,7 @@ public final class MatchMeBungeeCord extends Plugin implements Listener {
     } catch (Throwable throwable) {
       throwable.printStackTrace();
     }
-    getProxy().getScheduler().schedule(this, new DelayedStart(this), 20, TimeUnit.SECONDS);
+    getProxy().getScheduler().schedule(this, new DelayedStart(this), 60, TimeUnit.SECONDS);
   }
 
   @EventHandler
@@ -62,6 +62,7 @@ public final class MatchMeBungeeCord extends Plugin implements Listener {
 
   public void loadData() {
     this.reloadConfig();
+    getLogger().info("MatchMeDebug");
     MMConfig.motd.clear();
     MMConfig.groupMap.clear();
     MMConfig.groupsortOption.clear();
@@ -75,7 +76,14 @@ public final class MatchMeBungeeCord extends Plugin implements Listener {
       Configuration groupsection = this.config.getSection("groups." + groupname);
       groupsection.getStringList("servers").forEach(servername->{
         ServerInfo serverInfo= getProxy().getServerInfo(servername);
-        getLogger().info("serveraddressdebug: "+serverInfo.getSocketAddress().toString());
+        if(serverInfo!=null){
+          //getLogger().info("serveraddressdebug: "+serverInfo.getSocketAddress().toString());
+          String[] parts= serverInfo.getSocketAddress().toString().split("/");
+          String[] partsb = parts[1].split(":");
+          String ip = partsb[0];
+          String port= partsb[1];
+          MMConfig.groupMap.get(groupname).put( new ServerStatus(servername, ip, Integer.valueOf(port), config.getInt("path")),servername);
+        }
       });
       /*groupsection.getKeys().forEach(servername -> {
         
