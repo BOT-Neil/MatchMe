@@ -30,11 +30,12 @@ public final class MatchMeBungeeCord extends Plugin implements Listener {
   public Configuration config;
   private Plugin plugin;
 
-  public Plugin getPlugin(){
+  public Plugin getPlugin() {
     return plugin;
   }
+
   public MatchMeBungeeCord() throws IOException {
-   this.plugin=this;
+    this.plugin = this;
   }
 
   @Override
@@ -56,7 +57,7 @@ public final class MatchMeBungeeCord extends Plugin implements Listener {
   public void onPluginMessage(PluginMessageEvent event) {
     if (event.getTag().equalsIgnoreCase("matchme:matchme")) {
       ByteArrayDataInput byteArray = ByteStreams.newDataInput(event.getData());
-      //String mm = byteArray.readUTF();
+      // String mm = byteArray.readUTF();
       byteArray.readUTF();
       String group = byteArray.readUTF();
       String name = byteArray.readUTF();
@@ -70,41 +71,52 @@ public final class MatchMeBungeeCord extends Plugin implements Listener {
     MMConfig.motd.clear();
     MMConfig.groupMap.clear();
     MMConfig.groupsortOption.clear();
-    this.config.getStringList("motd").forEach(motd->{
+    this.config.getStringList("motd").forEach(motd -> {
       MMConfig.motd.add(motd);
     });
     this.config.getSection("groups").getKeys().forEach(groupname -> {
-      MMConfig.groupMap.put(groupname,new TreeMap<>());
-      Boolean sortmotd= this.config.getSection("groups."+groupname).getBoolean("sortmotd");
-      MMConfig.groupsortOption.put(groupname,sortmotd);
+      MMConfig.groupMap.put(groupname, new TreeMap<>());
+      Boolean sortmotd = this.config.getSection("groups." + groupname).getBoolean("sortmotd");
+      MMConfig.groupsortOption.put(groupname, sortmotd);
       Configuration groupsection = this.config.getSection("groups." + groupname);
-      groupsection.getStringList("servers").forEach(servername->{
-        ServerInfo serverInfo= getProxy().getServerInfo(servername);
-        if(serverInfo!=null){
-          //getLogger().info("serveraddressdebug: "+serverInfo.getSocketAddress().toString());
-          String[] parts= serverInfo.getSocketAddress().toString().split("/");
+      groupsection.getStringList("servers").forEach(servername -> {
+        ServerInfo serverInfo = getProxy().getServerInfo(servername);
+        if (serverInfo != null) {
+          // getLogger().info("serveraddressdebug:
+          // "+serverInfo.getSocketAddress().toString());
+          String[] parts = serverInfo.getSocketAddress().toString().split("/");
           String[] partsb = parts[1].split(":");
           String ip = partsb[0];
-          String port= partsb[1];
-          MMConfig.groupMap.get(groupname).put( new ServerStatus(servername, ip, Integer.valueOf(port), config.getInt("timeoutms")),servername);
+          String port = partsb[1];
+          MMConfig.groupMap.get(groupname)
+              .put(new ServerStatus(servername, ip, Integer.valueOf(port), config.getInt("timeoutms")), servername);
         }
       });
-      /*groupsection.getKeys().forEach(servername -> {
-        
-        //System.out.println("x:" + groupname + " y:" + servername);
-        //System.out.println(this.config.getSection("groups." + groupname + "." + servername).getString("ip")+ this.config.getSection("groups." + groupname + "." + servername).getInt("port"));
-        MMConfig.groupMap.get(groupname)
-            .put(new ServerStatus(servername,
-                this.config.getSection("groups." + groupname + "." + servername).getString("ip"),
-                this.config.getSection("groups." + groupname + "." + servername).getInt("port"),
-                this.config.getInt("timeoutms")), servername);
-      });*/
-      /*this.config.getSection("groups").getList(groupname).forEach(l -> {
-        ServerInfo serverInfo = getProxy().getServerInfo((String) l);
-        getLogger().info("ggetsocketaddresstostring" + serverInfo.getSocketAddress().toString());
-        // groupMap.get(x).put(new
-        // ServerStatus(serverInfo.getName(),serverInfo.getSocketAddress().))
-      });*/
+      /*
+       * groupsection.getKeys().forEach(servername -> {
+       * 
+       * //System.out.println("x:" + groupname + " y:" + servername);
+       * //System.out.println(this.config.getSection("groups." + groupname + "." +
+       * servername).getString("ip")+ this.config.getSection("groups." + groupname +
+       * "." + servername).getInt("port"));
+       * MMConfig.groupMap.get(groupname)
+       * .put(new ServerStatus(servername,
+       * this.config.getSection("groups." + groupname + "." +
+       * servername).getString("ip"),
+       * this.config.getSection("groups." + groupname + "." +
+       * servername).getInt("port"),
+       * this.config.getInt("timeoutms")), servername);
+       * });
+       */
+      /*
+       * this.config.getSection("groups").getList(groupname).forEach(l -> {
+       * ServerInfo serverInfo = getProxy().getServerInfo((String) l);
+       * getLogger().info("ggetsocketaddresstostring" +
+       * serverInfo.getSocketAddress().toString());
+       * // groupMap.get(x).put(new
+       * // ServerStatus(serverInfo.getName(),serverInfo.getSocketAddress().))
+       * });
+       */
       // else {this.config.getSection("motd").getKeys().forEach((mtd)->{motd.add(mtd);
       // });}
     });
@@ -112,14 +124,22 @@ public final class MatchMeBungeeCord extends Plugin implements Listener {
 
   public void matchMeProxiedPlayer(ProxiedPlayer pp, String servergroup) {
     try {
-      
-      pp.connect(this.getProxy()
+      if (MMConfig.groupsortOption.get(servergroup).booleanValue() == false) {
+pp.connect(this.getProxy()
           .getServerInfo(MMConfig.groupMap.get(servergroup).keySet().stream().filter(ServerStatus::isOpen)
               .sorted(Comparator.comparing(ServerStatus::getName).thenComparingInt(ServerStatus::getOnline).reversed())
               .iterator().next().getName()));
-      getLogger().info("is open:" + MMConfig.groupMap.get(servergroup).keySet().stream().filter(ServerStatus::isOpen)
+      }else{
+        pp.connect(this.getProxy()
+            .getServerInfo(MMConfig.groupMap.get(servergroup).keySet().stream().filter(ServerStatus::isOpen)
+                .sorted(
+                    Comparator.comparing(ServerStatus::getName).thenComparingInt(ServerStatus::getOnline).reversed().thenComparing(ServerStatus::getStatus))
+                .iterator().next().getName()));
+      }
+      
+      /*getLogger().info("is open:" + MMConfig.groupMap.get(servergroup).keySet().stream().filter(ServerStatus::isOpen)
           .sorted(Comparator.comparing(ServerStatus::getName).thenComparingInt(ServerStatus::getOnline).reversed())
-          .iterator().next().isOpen());
+          .iterator().next().isOpen());*/
       // pp.connect(this.getProxy().getServerInfo(groupMap.get(servergroup).keySet().stream().filter(ServerStatus::isOpen).sorted(Comparator.comparingInt(ServerStatus::getOnline).reversed().thenComparing(ServerStatus::getName)).iterator().next().getName()));
     } catch (Exception e) {
       BaseComponent baseComponent = new TextComponent("No Server Available.");
@@ -135,11 +155,20 @@ public final class MatchMeBungeeCord extends Plugin implements Listener {
       // getLogger().info(servergroup);
       // getLogger().info(groupMap.keySet().iterator().next());
       // System.out.println(groupMap.get(servergroup).keySet().stream().iterator().next().getStatus());
-      pp.connect(this.getProxy()
-          .getServerInfo(MMConfig.groupMap
-              .get(servergroup).keySet().stream().filter(ServerStatus::isOpen).sorted(Comparator
-                  .comparing(ServerStatus::getName).reversed().thenComparingInt(ServerStatus::getOnline).reversed())
-              .iterator().next().getName()));
+
+      if (MMConfig.groupsortOption.get(servergroup).booleanValue() == false) {
+        pp.connect(this.getProxy()
+            .getServerInfo(MMConfig.groupMap
+                .get(servergroup).keySet().stream().filter(ServerStatus::isOpen).sorted(Comparator
+                    .comparing(ServerStatus::getName).reversed().thenComparingInt(ServerStatus::getOnline).reversed())
+                .iterator().next().getName()));
+      } else {
+        pp.connect(this.getProxy()
+            .getServerInfo(MMConfig.groupMap
+                .get(servergroup).keySet().stream().filter(ServerStatus::isOpen).sorted(Comparator
+                    .comparing(ServerStatus::getName).reversed().thenComparingInt(ServerStatus::getOnline).reversed().thenComparing(ServerStatus::getStatus))
+                .iterator().next().getName()));
+      }
       // getLogger().info("is
       // open:"+groupMap.get(servergroup).keySet().stream().filter(ServerStatus::isOpen).sorted(Comparator.comparing(ServerStatus::getName).reversed().thenComparingInt(ServerStatus::getOnline).reversed()).iterator().next().isOpen());
       // pp.connect(this.getProxy().getServerInfo(groupMap.get(servergroup).keySet().stream().filter(ServerStatus::isOpen).sorted(Comparator.comparingInt(ServerStatus::getOnline).reversed().thenComparing(ServerStatus::getName)).iterator().next().getName()));

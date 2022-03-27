@@ -8,9 +8,9 @@ groups:
     servers: ["MM1", "MM2"]
   SMP:
     name: "SMP"
-    sortmotd: true #we will display 1 minute average tps on target
+    sortmotd: true #we will display 1 minute average tps on target, not recommended yet
     servers: ["SMP1", "SMP2"]
   Creative:
     name: "Creative"
-    sortmotd: true #we will display 1 minute average tps on target
+    sortmotd: true #we will display 1 minute average tps on target, not recommended yet
     servers: ["CreativeEU1", "CreativeEU2"]
