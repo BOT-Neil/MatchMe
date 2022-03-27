@@ -8,12 +8,14 @@ motd = [
 ]
 [servergroups]
 [servergroups.mm]
+sortmotd=false
 groupname="MM"
 servers=[
     "MM1",
     "MM2"
 ]
 [servergroups.smp]
+sortmotd=true
 groupname="SMP"
 servers = [
     "SMP2",

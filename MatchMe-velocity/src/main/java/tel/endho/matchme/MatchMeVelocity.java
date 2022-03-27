@@ -73,7 +73,7 @@ public class MatchMeVelocity {
         loadGroups();
         proxyServer.getScheduler()
                 .buildTask(this,new Pinger())
-                .repeat(200L,TimeUnit.MILLISECONDS)
+                .repeat(1000L,TimeUnit.MILLISECONDS)
                 .schedule();
         CommandMeta meta = commandManager.metaBuilder("gmatchme")
             // Specify other aliases (optional)
