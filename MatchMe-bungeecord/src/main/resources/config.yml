@@ -13,4 +13,4 @@ groups:
   Creative:
     name: "Creative"
     sortmotd: true #we will display 1 minute average tps on target
-    servers: ["CreativeEU1", "CreativeEU1"]
+    servers: ["CreativeEU1", "CreativeEU2"]

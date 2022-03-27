@@ -23,6 +23,8 @@ import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 import net.md_5.bungee.event.EventHandler;
+import tel.endho.matchme.commands.matchme;
+import tel.endho.matchme.commands.matchmereload;
 
 public final class MatchMeBungeeCord extends Plugin implements Listener {
   public Configuration config;
@@ -46,6 +48,8 @@ public final class MatchMeBungeeCord extends Plugin implements Listener {
       throwable.printStackTrace();
     }
     getProxy().getScheduler().schedule(this, new DelayedStart(this), 60, TimeUnit.SECONDS);
+    getProxy().getPluginManager().registerCommand(this, new matchme(this));
+    getProxy().getPluginManager().registerCommand(this, new matchmereload(this));
   }
 
   @EventHandler
@@ -82,7 +86,7 @@ public final class MatchMeBungeeCord extends Plugin implements Listener {
           String[] partsb = parts[1].split(":");
           String ip = partsb[0];
           String port= partsb[1];
-          MMConfig.groupMap.get(groupname).put( new ServerStatus(servername, ip, Integer.valueOf(port), config.getInt("path")),servername);
+          MMConfig.groupMap.get(groupname).put( new ServerStatus(servername, ip, Integer.valueOf(port), config.getInt("timeoutms")),servername);
         }
       });
       /*groupsection.getKeys().forEach(servername -> {

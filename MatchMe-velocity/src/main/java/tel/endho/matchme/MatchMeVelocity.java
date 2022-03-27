@@ -6,6 +6,8 @@ import com.google.inject.Inject;
 import com.moandjiezana.toml.Toml;
 import com.velocitypowered.api.event.connection.PluginMessageEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
+import com.velocitypowered.api.command.CommandManager;
+import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
@@ -14,6 +16,8 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import tel.endho.matchme.commands.matchme;
+
 import org.slf4j.Logger;
 
 import java.io.File;
@@ -62,7 +66,7 @@ public class MatchMeVelocity {
     }
 
     @Inject
-    public MatchMeVelocity(ProxyServer proxyServer,Logger logger, @DataDirectory final Path folder){
+    public MatchMeVelocity(ProxyServer proxyServer, CommandManager commandManager,Logger logger, @DataDirectory final Path folder){
         this.proxyServer = proxyServer;
         this.logger = logger;
         config = loadConfig(folder);
@@ -71,6 +75,11 @@ public class MatchMeVelocity {
                 .buildTask(this,new Pinger())
                 .repeat(200L,TimeUnit.MILLISECONDS)
                 .schedule();
+        CommandMeta meta = commandManager.metaBuilder("gmatchme")
+            // Specify other aliases (optional)
+            .aliases("bmatchme", "vmatchme")
+            .build();
+        commandManager.register(meta, new matchme(this));
         this.logger.info("MatchMe Loaded");
     }
     @Subscribe
